@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Công Đài: Tịnh Tiến & Đối Xứng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('https://placehold.co/1920x1080/000022/FFFFFF?text=Linh+Kh%C3%AD+%C4%90%E1%BA%A1i+Tr%E1%BA%ADn&font=playfairdisplay') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        canvas {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            touch-action: none; /* Chống cuộn trang khi chạm trên mobile */
+        }
+        input, button {
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+        /* Giao diện cho mobile */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .controls, .canvas-container {
+                width: 100% !important;
+            }
+            .controls {
+                order: 2;
+                max-height: none;
+            }
+            .canvas-container {
+                order: 1;
+                height: 40vh !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="main-container flex flex-col md:flex-row w-full max-w-6xl h-[90vh] glassmorphism rounded-xl shadow-2xl overflow-hidden">
+
+        <!-- Bảng điều khiển (Tâm Pháp) -->
+        <div class="controls w-full md:w-1/3 p-6 space-y-4 overflow-y-auto" style="max-height: 90vh;">
+            <h1 class="text-2xl font-bold text-center text-yellow-300">📜 Tâm Pháp Điều Khiển 📜</h1>
+            
+            <div class="p-4 glassmorphism rounded-lg">
+                <h2 class="text-lg font-semibold text-cyan-300 mb-2">Phép 1: Tịnh Tiến (Lăng Ba Vi Bộ)</h2>
+                <div class="flex space-x-2">
+                    <div class="flex-1">
+                        <label for="dx" class="block text-sm">dx (Trục Hoành):</label>
+                        <input type="number" id="dx" value="20" class="w-full bg-gray-900 text-white border border-cyan-400 rounded-md p-2 focus:ring-2 focus:ring-cyan-300 outline-none">
+                    </div>
+                    <div class="flex-1">
+                        <label for="dy" class="block text-sm">dy (Trục Tung):</label>
+                        <input type="number" id="dy" value="20" class="w-full bg-gray-900 text-white border border-cyan-400 rounded-md p-2 focus:ring-2 focus:ring-cyan-300 outline-none">
+                    </div>
+                </div>
+                <button id="translate" class="mt-2 w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-4 rounded-lg shadow-lg">⚡ Dịch Chuyển!</button>
+            </div>
+
+            <div class="p-4 glassmorphism rounded-lg">
+                <h2 class="text-lg font-semibold text-green-300 mb-2">Phép 2: Đối Xứng (Phân Thân Ảnh Chiếu)</h2>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="reflectX" class="bg-green-500 hover:bg-green-400 text-black font-bold py-2 px-4 rounded-lg shadow-lg">Trục Hoành (X)</button>
+                    <button id="reflectY" class="bg-green-500 hover:bg-green-400 text-black font-bold py-2 px-4 rounded-lg shadow-lg">Trục Tung (Y)</button>
+                    <button id="reflectOrigin" class="col-span-2 bg-green-500 hover:bg-green-400 text-black font-bold py-2 px-4 rounded-lg shadow-lg">Gốc Tọa Độ (O)</button>
+                </div>
+            </div>
+
+            <div class="p-4 glassmorphism rounded-lg">
+                <h2 class="text-lg font-semibold text-yellow-300 mb-2">Phép 3: Xoay (Chu Thiên Vận Chuyển)</h2>
+                <div>
+                    <label for="angle" class="block text-sm">Góc (độ):</label>
+                    <input type="number" id="angle" value="30" class="w-full bg-gray-900 text-white border border-yellow-400 rounded-md p-2 focus:ring-2 focus:ring-yellow-300 outline-none">
+                </div>
+                <button id="rotate" class="mt-2 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg shadow-lg">🔄 Vận Chuyển!</button>
+            </div>
+
+            <div class="p-4 glassmorphism rounded-lg">
+                <h2 class="text-lg font-semibold text-purple-300 mb-2">Phép 4: Tỷ Lệ (Pháp Tắc Thiên Địa)</h2>
+                <div class="flex space-x-2">
+                    <div class="flex-1">
+                        <label for="sx" class="block text-sm">Tỷ lệ X:</label>
+                        <input type="number" id="sx" value="1.2" step="0.1" class="w-full bg-gray-900 text-white border border-purple-400 rounded-md p-2 focus:ring-2 focus:ring-purple-300 outline-none">
+                    </div>
+                    <div class="flex-1">
+                        <label for="sy" class="block text-sm">Tỷ lệ Y:</label>
+                        <input type="number" id="sy" value="1.2" step="0.1" class="w-full bg-gray-900 text-white border border-purple-400 rounded-md p-2 focus:ring-2 focus:ring-purple-300 outline-none">
+                    </div>
+                </div>
+                <button id="scale" class="mt-2 w-full bg-purple-500 hover:bg-purple-400 text-black font-bold py-2 px-4 rounded-lg shadow-lg">🌌 Phóng/Thu!</button>
+            </div>
+
+            <button id="reset" class="w-full bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-lg shadow-lg">🔥 Trùng Tu!</button>
+        </div>
+
+        <!-- Luyện Công Đài (Canvas) -->
+        <div class="canvas-container w-full md:w-2/3 p-6 flex flex-col h-full">
+            <h1 class="text-2xl font-bold text-center text-yellow-300 mb-4">⛩️ Luyện Công Đài Hình Học ⛩️</h1>
+            <canvas id="canvas" class="flex-1 w-full h-full"></canvas>
+            <div id="explanation" class="mt-4 p-4 glassmorphism rounded-lg text-yellow-200 h-24 overflow-y-auto">
+                Chư vị đạo hữu, hãy chọn tâm pháp bên trái để bắt đầu luyện!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const explanation = document.getElementById('explanation');
+
+            // Nút điều khiển
+            const btnTranslate = document.getElementById('translate');
+            const btnReflectX = document.getElementById('reflectX');
+            const btnReflectY = document.getElementById('reflectY');
+            const btnReflectOrigin = document.getElementById('reflectOrigin');
+            const btnRotate = document.getElementById('rotate');
+            const btnScale = document.getElementById('scale');
+            const btnReset = document.getElementById('reset');
+            
+            // Input
+            const inDx = document.getElementById('dx');
+            const inDy = document.getElementById('dy');
+            const inAngle = document.getElementById('angle');
+            const inSx = document.getElementById('sx');
+            const inSy = document.getElementById('sy');
+
+            let originX, originY;
+            
+            // Hình dạng gốc (Linh Thể Ban Đầu) - một hình tam giác
+            const originalShape = [
+                { x: 20, y: 20 },
+                { x: 80, y: 20 },
+                { x: 50, y: 80 }
+            ];
+            let currentShape = JSON.parse(JSON.stringify(originalShape));
+
+            // Biến cho animation
+            let animationId = null;
+            let targetShape = null;
+            let previousShape = null; // Hình dạng lúc bắt đầu animation
+            let animationStartTime = 0;
+            const duration = 500; // 500ms cho mỗi phép biến đổi
+
+            // Hàm Easing (tăng/giảm tốc mượt mà)
+            function easeInOutCubic(t) {
+                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                originX = canvas.width / 2;
+                originY = canvas.height / 2;
+                drawAll();
+            }
+
+            function drawAxes() {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 1;
+
+                // Trục X
+                ctx.beginPath();
+                ctx.moveTo(0, originY);
+                ctx.lineTo(canvas.width, originY);
+                ctx.stroke();
+
+                // Trục Y
+                ctx.beginPath();
+                ctx.moveTo(originX, 0);
+                ctx.lineTo(originX, canvas.height);
+                ctx.stroke();
+            }
+            
+            // Vẽ hình dạng (linh thể)
+            function drawShape(shape, color, lineDash = []) {
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.fillStyle = color.replace('1)', '0.3)');
+                ctx.lineWidth = 2;
+                ctx.setLineDash(lineDash);
+
+                const firstPoint = shape[0];
+                // Chuyển đổi tọa độ từ toán học (gốc ở giữa) sang canvas (gốc ở trên cùng bên trái)
+                // Và lật trục Y (trong toán học Y dương đi lên, trong canvas Y dương đi xuống)
+                ctx.moveTo(originX + firstPoint.x, originY - firstPoint.y);
+                
+                for (let i = 1; i < shape.length; i++) {
+                    const point = shape[i];
+                    ctx.lineTo(originX + point.x, originY - point.y);
+                }
+                
+                ctx.closePath();
+                ctx.stroke();
+                ctx.fill();
+                ctx.setLineDash([]); // Reset line dash
+            }
+
+            // Xóa và vẽ lại tất cả
+            function drawAll() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawAxes();
+                // Vẽ hình gốc (bóng mờ)
+                drawShape(originalShape, 'rgba(255, 255, 255, 0.2)', [5, 5]);
+                // Vẽ hình hiện tại
+                drawShape(currentShape, 'rgba(255, 215, 0, 1)'); // Màu vàng kim
+            }
+
+            // Vòng lặp Animation
+            function animate(timestamp) {
+                if (!animationStartTime) animationStartTime = timestamp;
+                const elapsed = timestamp - animationStartTime;
+                let progress = Math.min(elapsed / duration, 1);
+                progress = easeInOutCubic(progress); // Áp dụng easing
+
+                // Nội suy vị trí các điểm
+                currentShape = previousShape.map((p, i) => {
+                    const target = targetShape[i];
+                    return {
+                        x: p.x + (target.x - p.x) * progress,
+                        y: p.y + (target.y - p.y) * progress
+                    };
+                });
+
+                drawAll(); // Vẽ lại canvas
+
+                if (progress < 1) {
+                    animationId = requestAnimationFrame(animate);
+                } else {
+                    // Animation kết thúc
+                    animationId = null;
+                    currentShape = JSON.parse(JSON.stringify(targetShape)); // Chốt vị trí cuối
+                    previousShape = null;
+                    targetShape = null;
+                    animationStartTime = 0;
+                }
+            }
+
+            // Hàm bắt đầu một animation mới
+            function startAnimation(newTargetShape, explanationText) {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    // Nếu đang chạy dở, lấy vị trí hiện tại làm mốc
+                    previousShape = JSON.parse(JSON.stringify(currentShape));
+                } else {
+                    // Nếu đang đứng yên, lấy vị trí hiện tại làm mốc
+                    previousShape = JSON.parse(JSON.stringify(currentShape));
+                }
+
+                targetShape = newTargetShape;
+                explanation.innerHTML = explanationText;
+                
+                animationStartTime = 0; // Reset thời gian bắt đầu
+                animationId = requestAnimationFrame(animate); // Bắt đầu vòng lặp
+            }
+
+
+            // Phép 1: Tịnh tiến
+            btnTranslate.addEventListener('click', () => {
+                const dx = parseFloat(inDx.value) || 0;
+                const dy = parseFloat(inDy.value) || 0;
+                
+                const newTarget = currentShape.map(p => ({
+                    x: p.x + dx,
+                    y: p.y + dy
+                }));
+                
+                const text = `🌟 <b>Tịnh Tiến (Dịch Chuyển):</b> Linh thể đã di chuyển ${dx} đơn vị theo trục Hoành và ${dy} đơn vị theo trục Tung. <br>Đây chính là <b>Lăng Ba Vi Bộ</b>, di chuyển mà không thay đổi hình dạng!`;
+                startAnimation(newTarget, text);
+            });
+
+            // Phép 2: Đối xứng
+            btnReflectX.addEventListener('click', () => {
+                const newTarget = currentShape.map(p => ({
+                    x: p.x,
+                    y: -p.y
+                }));
+                const text = `🌟 <b>Đối Xứng Trục X (Ảnh Chiếu):</b> Một phân thân hoàn hảo đã được tạo ra, đối xứng qua mặt đất (trục Hoành). <br><b>Tâm pháp:</b> (x, y) ➔ (x, -y)`;
+                startAnimation(newTarget, text);
+            });
+
+            btnReflectY.addEventListener('click', () => {
+                const newTarget = currentShape.map(p => ({
+                    x: -p.x,
+                    y: p.y
+                }));
+                const text = `🌟 <b>Đối Xứng Trục Y (Phản Chiếu):</b> Một phân thân hoàn hảo đã được tạo ra, đối xứng qua tấm gương (trục Tung). <br><b>Tâm pháp:</b> (x, y) ➔ (-x, y)`;
+                startAnimation(newTarget, text);
+            });
+
+            btnReflectOrigin.addEventListener('click', () => {
+                const newTarget = currentShape.map(p => ({
+                    x: -p.x,
+                    y: -p.y
+                }));
+                const text = `🌟 <b>Đối Xứng Gốc Tọa Độ (Đảo Nghịch):</b> Một phân thân đã được tạo ra, đảo ngược hoàn toàn qua gốc linh khí (gốc O). <br><b>Tâm pháp:</b> (x, y) ➔ (-x, -y)`;
+                startAnimation(newTarget, text);
+            });
+
+            // Phép 3: Xoay
+            btnRotate.addEventListener('click', () => {
+                const angleDeg = parseFloat(inAngle.value) || 0;
+                const angleRad = angleDeg * Math.PI / 180;
+                const cos = Math.cos(angleRad);
+                const sin = Math.sin(angleRad);
+
+                const newTarget = currentShape.map(p => ({
+                    x: p.x * cos - p.y * sin,
+                    y: p.x * sin + p.y * cos
+                }));
+                const text = `🌟 <b>Xoay (Chu Thiên Vận Chuyển):</b> Linh thể đã xoay ${angleDeg} độ quanh gốc. <br><b>Tâm pháp:</b> (x, y) ➔ (x*cosθ - y*sinθ, x*sinθ + y*cosθ)`;
+                startAnimation(newTarget, text);
+            });
+
+            // Phép 4: Tỷ lệ
+            btnScale.addEventListener('click', () => {
+                const sx = parseFloat(inSx.value) || 1;
+                const sy = parseFloat(inSy.value) || 1;
+
+                const newTarget = currentShape.map(p => ({
+                    x: p.x * sx,
+                    y: p.y * sy
+                }));
+                const text = `🌟 <b>Tỷ Lệ (Pháp Tắc Thiên Địa):</b> Linh thể đã ${sx > 1 || sy > 1 ? 'phóng đại' : 'thu nhỏ'} với tỷ lệ ${sx} (trục X) và ${sy} (trục Y). <br><b>Tâm pháp:</b> (x, y) ➔ (x*sx, y*sy)`;
+                startAnimation(newTarget, text);
+            });
+
+            // Reset
+            btnReset.addEventListener('click', () => {
+                const newTarget = JSON.parse(JSON.stringify(originalShape));
+                const text = `🔥 <b>Trùng Tu!</b> Linh thể đã quay về trạng thái ban đầu, sẵn sàng cho vòng luyện công mới!`;
+                startAnimation(newTarget, text);
+            });
+            
+            // Xử lý touch/swipe cho mobile
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchShape = null;
+
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                // Ngừng animation nếu đang chạy
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                    animationStartTime = 0;
+                }
+                
+                const touch = e.touches[0];
+                // Chuyển đổi tọa độ touch về tọa độ "toán học"
+                touchStartX = touch.clientX - canvas.getBoundingClientRect().left - originX;
+                touchStartY = originY - (touch.clientY - canvas.getBoundingClientRect().top);
+                touchShape = JSON.parse(JSON.stringify(currentShape));
+            }, { passive: false });
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!touchShape) return;
+                const touch = e.touches[0];
+                const touchMoveX = touch.clientX - canvas.getBoundingClientRect().left - originX;
+                const touchMoveY = originY - (touch.clientY - canvas.getBoundingClientRect().top);
+
+                const dx = touchMoveX - touchStartX;
+                const dy = touchMoveY - touchStartY;
+                
+                // Áp dụng tịnh tiến dựa trên vị trí touch (không dùng animation mượt)
+                currentShape = touchShape.map(p => ({
+                    x: p.x + dx,
+                    y: p.y + dy
+                }));
+
+                drawAll();
+                explanation.innerHTML = `🌟 <b>Tịnh Tiến (Dịch Chuyển):</b> Linh thể đang di chuyển theo ngón tay của cậu!`;
+            }, { passive: false });
+
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchShape = null;
+                // Cập nhật previousShape để animation tiếp theo (nếu có) bắt đầu từ đây
+                previousShape = JSON.parse(JSON.stringify(currentShape));
+            }, { passive: false });
+
+            // Khởi tạo và vẽ lần đầu
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+        });
+    </script>
+</body>
+</html>
+
