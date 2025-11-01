@@ -1,2 +1,2 @@
-# Luy-n-C-ng-H-nh-H-c-
+# luyenconghinhhoc
 chú nhập linh khí" vào "Luyện Công Đài"
